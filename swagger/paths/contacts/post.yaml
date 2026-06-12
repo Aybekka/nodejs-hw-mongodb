@@ -1,0 +1,82 @@
+tags:
+  - Contacts
+summary: Create a contact
+operationId: createContact
+description: Creates a new contact for the authenticated user. Optionally accepts a photo file.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - name
+          - phoneNumber
+          - contactType
+        properties:
+          name:
+            type: string
+            minLength: 3
+            maxLength: 20
+            example: John Doe
+          phoneNumber:
+            type: string
+            minLength: 3
+            maxLength: 20
+            example: '+380971234567'
+          email:
+            type: string
+            format: email
+            example: john@example.com
+          isFavourite:
+            type: boolean
+            default: false
+            example: false
+          contactType:
+            type: string
+            enum:
+              - work
+              - home
+              - personal
+            example: personal
+          photo:
+            type: string
+            format: binary
+            description: Contact photo file
+responses:
+  '201':
+    description: Successfully created a contact
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully created a contact!
+            data:
+              $ref: ../../components/schemas/contact.yaml
+  '400':
+    description: Bad request — validation error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: Bad Request
+  '401':
+    $ref: ../../components/responses/401.yaml

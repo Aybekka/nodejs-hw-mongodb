@@ -1,0 +1,8 @@
+tags:
+  - Auth
+summary: Logout the current user
+operationId: logoutUser
+description: Ends the current session and clears session cookies.
+responses:
+  '204':
+    description: Successfully logged out — no content returned

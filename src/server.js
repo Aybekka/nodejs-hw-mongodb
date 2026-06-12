@@ -4,6 +4,7 @@ import pino from 'pino-http';
 import cookieParser from 'cookie-parser';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 import router from './routers/index.js';
 
 export const setupServer = () => {
@@ -14,6 +15,7 @@ export const setupServer = () => {
   app.use(cookieParser());
   app.use(pino());
 
+  app.use('/api-docs', swaggerDocs());
   app.use(router);
 
   app.use('*splat', notFoundHandler);

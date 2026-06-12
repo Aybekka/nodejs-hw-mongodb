@@ -1,0 +1,86 @@
+tags:
+  - Contacts
+summary: Update a contact
+operationId: patchContact
+description: Partially updates a contact by its ID. All fields are optional. Optionally accepts a new photo file.
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: contactId
+    required: true
+    schema:
+      type: string
+    description: MongoDB ObjectId of the contact
+    example: 65e4decdd286b30065d54af9
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            minLength: 3
+            maxLength: 20
+            example: Jane Doe
+          phoneNumber:
+            type: string
+            minLength: 3
+            maxLength: 20
+            example: '+380979876543'
+          email:
+            type: string
+            format: email
+            example: jane@example.com
+          isFavourite:
+            type: boolean
+            example: true
+          contactType:
+            type: string
+            enum:
+              - work
+              - home
+              - personal
+            example: work
+          photo:
+            type: string
+            format: binary
+            description: New contact photo file
+responses:
+  '200':
+    description: Successfully updated the contact
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully patched a contact!
+            data:
+              $ref: ../../../components/schemas/contact.yaml
+  '400':
+    description: Bad request — validation error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: Bad Request
+  '401':
+    $ref: ../../../components/responses/401.yaml
+  '404':
+    $ref: ../../../components/responses/404.yaml

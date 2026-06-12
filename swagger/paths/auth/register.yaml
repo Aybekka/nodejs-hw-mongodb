@@ -1,0 +1,67 @@
+tags:
+  - Auth
+summary: Register a new user
+operationId: registerUser
+description: Creates a new user account with name, email, and password.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - name
+          - email
+          - password
+        properties:
+          name:
+            type: string
+            minLength: 3
+            maxLength: 30
+            example: John Doe
+          email:
+            type: string
+            format: email
+            example: john@example.com
+          password:
+            type: string
+            example: secret123
+responses:
+  '201':
+    description: User successfully registered
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully registered a user!
+            data:
+              type: object
+              properties:
+                _id:
+                  type: string
+                  example: 65e4decdd286b30065d54af8
+                name:
+                  type: string
+                  example: John Doe
+                email:
+                  type: string
+                  example: john@example.com
+  '409':
+    description: Email already in use
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 409
+            message:
+              type: string
+              example: Email in use

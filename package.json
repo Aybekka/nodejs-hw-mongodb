@@ -7,7 +7,10 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build-docs",
+    "build-docs": "redocly bundle docs/openapi.yaml --ext json -o docs/swagger.json",
+    "preview-docs": "redocly preview-docs"
   },
   "repository": {
     "type": "git",
@@ -36,9 +39,11 @@
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^8.0.11",
     "pino": "^10.3.1",
-    "pino-http": "^11.0.0"
+    "pino-http": "^11.0.0",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
+    "@redocly/cli": "^2.32.2",
     "nodemon": "^3.1.14",
     "prettier": "^3.8.3"
   }
